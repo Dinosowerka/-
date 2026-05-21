@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Статистика — ПОКОЛЕНИЕ</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="stats-page">
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">ПОКОЛЕНИЕ<span></span></a>
+      <nav class="site-nav" id="siteNav">
+        <a href="index.html">Главная</a>
+        <a href="index.html#clubs">Клубы</a>
+        <a href="index.html#about">О нас</a>
+        <a href="stats.html" class="nav-btn active">Статистика</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Открыть меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== PAGE HERO ===== -->
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="breadcrumb"><a href="index.html">Главная</a> / Статистика</div>
+      <h1>Статистика <span class="accent">клубов</span></h1>
+      <p>Отслеживайте прогресс участников, добавляйте активности и ведите учёт занятий</p>
+    </div>
+  </div>
+
+  <!-- ===== TABS + CONTENT ===== -->
+  <div class="tabs-wrap">
+
+    <!-- Global dashboard summary -->
+    <div class="dash-summary" id="globalSummary">
+      <div class="dash-card">
+        <div class="dc-icon">👥</div>
+        <div>
+          <div class="dc-val" id="g-members">0</div>
+          <div class="dc-lbl">Участников</div>
+        </div>
+      </div>
+      <div class="dash-card">
+        <div class="dc-icon">📅</div>
+        <div>
+          <div class="dc-val" id="g-sessions">0</div>
+          <div class="dc-lbl">Занятий</div>
+        </div>
+      </div>
+      <div class="dash-card">
+        <div class="dc-icon">⭐</div>
+        <div>
+          <div class="dc-val" id="g-score">0</div>
+          <div class="dc-lbl">Очков</div>
+        </div>
+      </div>
+      <div class="dash-card">
+        <div class="dc-icon">🔥</div>
+        <div>
+          <div class="dc-val" id="g-streak">0</div>
+          <div class="dc-lbl">Макс. серия</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="tabs" role="tablist">
+      <button class="tab-btn active" role="tab" data-tab="sport"
+              aria-selected="true" id="tab-sport">
+        <span class="tab-icon">🏃</span> Спорт
+      </button>
+      <button class="tab-btn" role="tab" data-tab="english"
+              aria-selected="false" id="tab-english">
+        <span class="tab-icon">🇬🇧</span> Английский язык
+      </button>
+      <button class="tab-btn" role="tab" data-tab="reading"
+              aria-selected="false" id="tab-reading">
+        <span class="tab-icon">📚</span> Чтение книг
+      </button>
+    </div>
+
+    <!-- ============ SPORT PANEL ============ -->
+    <div class="tab-panel active" id="panel-sport" role="tabpanel">
+
+      <div class="club-panel-header">
+        <div class="club-panel-title">
+          <div class="cpt-icon">🏃</div>
+          Клуб «Спорт»
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-outline" style="color:var(--black);border-color:var(--gray-light);font-size:.8rem;padding:10px 16px;"
+                  onclick="toggleForm('sport')">+ Добавить участника</button>
+          <button class="btn btn-primary" style="font-size:.8rem;padding:10px 16px;"
+                  onclick="openLogModal('sport')">📝 Записать занятие</button>
+        </div>
+      </div>
+
+      <!-- Add member form -->
+      <div class="add-member-form" id="form-sport">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Имя участника</label>
+            <input type="text" id="sport-name" placeholder="Например: Алексей Иванов" />
+          </div>
+          <div class="form-group" style="flex:0 0 auto;">
+            <label>&nbsp;</label>
+            <button class="btn btn-primary" style="font-size:.85rem;padding:10px 20px;"
+                    onclick="addMember('sport')">Добавить</button>
+          </div>
+          <div class="form-group" style="flex:0 0 auto;">
+            <label>&nbsp;</label>
+            <button class="btn btn-outline" style="color:var(--black);border-color:var(--gray-light);font-size:.85rem;padding:10px 20px;"
+                    onclick="toggleForm('sport')">Отмена</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="members-table-wrap" id="table-wrap-sport"></div>
+
+      <!-- Activity log -->
+      <div class="log-section">
+        <h3>📋 Журнал активностей</h3>
+        <div class="activity-log" id="log-sport"></div>
+      </div>
+    </div>
+
+    <!-- ============ ENGLISH PANEL ============ -->
+    <div class="tab-panel" id="panel-english" role="tabpanel">
+
+      <div class="club-panel-header">
+        <div class="club-panel-title">
+          <div class="cpt-icon">🇬🇧</div>
+          Клуб «Английский язык»
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-outline" style="color:var(--black);border-color:var(--gray-light);font-size:.8rem;padding:10px 16px;"
+                  onclick="toggleForm('english')">+ Добавить участника</button>
+          <button class="btn btn-primary" style="font-size:.8rem;padding:10px 16px;"
+                  onclick="openLogModal('english')">📝 Записать занятие</button>
+        </div>
+      </div>
+
+      <div class="add-member-form" id="form-english">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Имя участника</label>
+            <input type="text" id="english-name" placeholder="Например: Мария Петрова" />
+          </div>
+          <div class="form-group" style="flex:0 0 auto;">
+            <label>&nbsp;</label>
+            <button class="btn btn-primary" style="font-size:.85rem;padding:10px 20px;"
+                    onclick="addMember('english')">Добавить</button>
+          </div>
+          <div class="form-group" style="flex:0 0 auto;">
+            <label>&nbsp;</label>
+            <button class="btn btn-outline" style="color:var(--black);border-color:var(--gray-light);font-size:.85rem;padding:10px 20px;"
+                    onclick="toggleForm('english')">Отмена</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="members-table-wrap" id="table-wrap-english"></div>
+
+      <div class="log-section">
+        <h3>📋 Журнал активностей</h3>
+        <div class="activity-log" id="log-english"></div>
+      </div>
+    </div>
+
+    <!-- ============ READING PANEL ============ -->
+    <div class="tab-panel" id="panel-reading" role="tabpanel">
+
+      <div class="club-panel-header">
+        <div class="club-panel-title">
+          <div class="cpt-icon">📚</div>
+          Клуб «Чтение книг»
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-outline" style="color:var(--black);border-color:var(--gray-light);font-size:.8rem;padding:10px 16px;"
+                  onclick="toggleForm('reading')">+ Добавить участника</button>
+          <button class="btn btn-primary" style="font-size:.8rem;padding:10px 16px;"
+                  onclick="openLogModal('reading')">📝 Записать занятие</button>
+        </div>
+      </div>
+
+      <div class="add-member-form" id="form-reading">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Имя участника</label>
+            <input type="text" id="reading-name" placeholder="Например: Дмитрий Смирнов" />
+          </div>
+          <div class="form-group" style="flex:0 0 auto;">
+            <label>&nbsp;</label>
+            <button class="btn btn-primary" style="font-size:.85rem;padding:10px 20px;"
+                    onclick="addMember('reading')">Добавить</button>
+          </div>
+          <div class="form-group" style="flex:0 0 auto;">
+            <label>&nbsp;</label>
+            <button class="btn btn-outline" style="color:var(--black);border-color:var(--gray-light);font-size:.85rem;padding:10px 20px;"
+                    onclick="toggleForm('reading')">Отмена</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="members-table-wrap" id="table-wrap-reading"></div>
+
+      <div class="log-section">
+        <h3>📋 Журнал активностей</h3>
+        <div class="activity-log" id="log-reading"></div>
+      </div>
+    </div>
+
+  </div><!-- /.tabs-wrap -->
+
+  <!-- ===== LOG ACTIVITY MODAL ===== -->
+  <div id="logModal" style="
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);
+    z-index:1000;align-items:center;justify-content:center;padding:24px;">
+    <div style="
+      background:var(--white);border-radius:var(--radius);
+      padding:32px;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3);">
+      <h2 style="font-size:1.1rem;font-weight:800;margin-bottom:20px;">
+        📝 Записать занятие
+      </h2>
+      <input type="hidden" id="modal-club" />
+      <div class="form-group" style="margin-bottom:14px;">
+        <label>Участник</label>
+        <select id="modal-member"></select>
+      </div>
+      <div class="form-row" style="margin-bottom:14px;">
+        <div class="form-group">
+          <label>Тип активности</label>
+          <select id="modal-type">
+            <option value="attendance">✅ Посещение</option>
+            <option value="completion">🏅 Выполнение задания</option>
+            <option value="bonus">⭐ Бонусные очки</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Очки</label>
+          <input type="number" id="modal-points" value="10" min="1" max="100" />
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:20px;">
+        <label>Заметка (необязательно)</label>
+        <input type="text" id="modal-note" placeholder="Например: пробежал 5 км" />
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;">
+        <button class="btn btn-outline"
+                style="color:var(--black);border-color:var(--gray-light);font-size:.85rem;padding:10px 20px;"
+                onclick="closeLogModal()">Отмена</button>
+        <button class="btn btn-primary" style="font-size:.85rem;padding:10px 20px;"
+                onclick="logActivity()">Записать</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer" style="margin-top:64px;">
+    <span class="footer-logo">ПОКОЛЕНИЕ</span>
+    &copy; 2024 Сообщество Михаила Гребенюка. Все права защищены.
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    // Hamburger
+    document.getElementById('hamburger').addEventListener('click', function () {
+      document.getElementById('siteNav').classList.toggle('open');
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.dataset.tab;
+        document.querySelectorAll('.tab-btn').forEach(b => {
+          b.classList.toggle('active', b === btn);
+          b.setAttribute('aria-selected', b === btn);
+        });
+        document.querySelectorAll('.tab-panel').forEach(p => {
+          p.classList.toggle('active', p.id === 'panel-' + tab);
+        });
+      });
+    });
+
+    // Handle URL hash navigation
+    (function handleHash() {
+      const hash = window.location.hash.replace('#', '');
+      if (['sport', 'english', 'reading'].includes(hash)) {
+        document.querySelectorAll('.tab-btn').forEach(b => {
+          b.classList.toggle('active', b.dataset.tab === hash);
+          b.setAttribute('aria-selected', b.dataset.tab === hash);
+        });
+        document.querySelectorAll('.tab-panel').forEach(p => {
+          p.classList.toggle('active', p.id === 'panel-' + hash);
+        });
+      }
+    })();
+
+    // Render everything on load
+    renderAll();
+
+    function renderAll() {
+      ['sport', 'english', 'reading'].forEach(renderClub);
+      renderGlobalSummary();
+    }
+
+    function renderGlobalSummary() {
+      let gm = 0, gs = 0, gsc = 0, gstr = 0;
+      ['sport', 'english', 'reading'].forEach(clubId => {
+        const data = Store.get(clubId);
+        gm  += (data.members || []).length;
+        gs  += (data.members || []).reduce((a, m) => a + (m.sessions || 0), 0);
+        gsc += (data.members || []).reduce((a, m) => a + (m.score || 0), 0);
+        const maxStr = Math.max(0, ...(data.members || []).map(m => m.streak || 0));
+        if (maxStr > gstr) gstr = maxStr;
+      });
+      document.getElementById('g-members').textContent  = gm;
+      document.getElementById('g-sessions').textContent = gs;
+      document.getElementById('g-score').textContent    = gsc;
+      document.getElementById('g-streak').textContent   = gstr;
+    }
+
+    function renderClub(clubId) {
+      const data    = Store.get(clubId);
+      const members = data.members || [];
+      const logs    = data.logs    || [];
+      const wrap    = document.getElementById('table-wrap-' + clubId);
+
+      if (members.length === 0) {
+        wrap.innerHTML = `
+          <div class="empty-state">
+            <div class="es-icon">👤</div>
+            <p>Участников пока нет. Добавьте первого!</p>
+          </div>`;
+      } else {
+        wrap.innerHTML = buildTable(clubId, members);
+      }
+
+      // Render log
+      const logEl = document.getElementById('log-' + clubId);
+      if (logs.length === 0) {
+        logEl.innerHTML = `<div class="empty-state" style="padding:24px 0;">
+          <p>Активностей ещё нет.</p></div>`;
+      } else {
+        logEl.innerHTML = [...logs].reverse().slice(0, 20).map(entry => `
+          <div class="log-entry">
+            <span class="le-icon">${activityIcon(entry.type)}</span>
+            <span class="le-text"><strong>${entry.memberName}</strong> — ${activityLabel(entry.type)}${entry.note ? ': ' + entry.note : ''} (+${entry.points} очков)</span>
+            <span class="le-date">${formatDate(entry.date)}</span>
+          </div>`).join('');
+      }
+    }
+
+    function buildTable(clubId, members) {
+      const sorted = [...members].sort((a, b) => (b.score || 0) - (a.score || 0));
+      return `
+        <table class="members-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Участник</th>
+              <th>Занятий</th>
+              <th>Серия</th>
+              <th>Очки</th>
+              <th>Статус</th>
+              <th>Действия</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${sorted.map((m, i) => `
+              <tr>
+                <td><strong style="color:var(--orange)">${i + 1}</strong></td>
+                <td>
+                  <div class="member-name-cell">
+                    <div class="member-avatar" style="background:${avatarColor(m.name)}">${initials(m.name)}</div>
+                    ${m.name}
+                  </div>
+                </td>
+                <td>${m.sessions || 0}</td>
+                <td>
+                  <div class="streak-bar">
+                    <div class="streak-dots">
+                      ${streakDots(m.streak || 0)}
+                    </div>
+                    <span style="font-size:.78rem;color:var(--gray-dark);font-weight:700;">
+                      ${m.streak || 0}🔥
+                    </span>
+                  </div>
+                </td>
+                <td><strong style="color:var(--orange)">${m.score || 0}</strong></td>
+                <td>${statusBadge(m)}</td>
+                <td>
+                  <div class="action-btns">
+                    <button class="icon-btn" title="Быстро +10 очков"
+                            onclick="quickPoints('${clubId}', '${m.id}')">⭐</button>
+                    <button class="icon-btn" title="Записать посещение"
+                            onclick="quickAttend('${clubId}', '${m.id}')">✅</button>
+                    <button class="icon-btn danger" title="Удалить участника"
+                            onclick="removeMember('${clubId}', '${m.id}')">🗑</button>
+                  </div>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>`;
+    }
+
+    function streakDots(n) {
+      const dots = Math.min(n, 7);
+      let html = '';
+      for (let i = 0; i < 7; i++) {
+        html += `<div class="streak-dot ${i < dots ? 'on' : ''}"></div>`;
+      }
+      return html;
+    }
+
+    function statusBadge(m) {
+      const s = m.sessions || 0;
+      if (s >= 20) return '<span class="badge badge-orange">Про</span>';
+      if (s >= 10) return '<span class="badge badge-green">Активный</span>';
+      return '<span class="badge badge-gray">Новичок</span>';
+    }
+
+    function activityIcon(type) {
+      return type === 'attendance' ? '✅' : type === 'completion' ? '🏅' : '⭐';
+    }
+
+    function activityLabel(type) {
+      return type === 'attendance' ? 'Посещение' : type === 'completion' ? 'Выполнение задания' : 'Бонусные очки';
+    }
+
+    function formatDate(iso) {
+      if (!iso) return '';
+      const d = new Date(iso);
+      return d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit' });
+    }
+
+    function initials(name) {
+      return (name || '?').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+    }
+
+    const COLORS = ['#FF6B00', '#CC5500', '#1A1A1A', '#2C2C2C', '#6B3C00', '#884400'];
+    function avatarColor(name) {
+      let h = 0;
+      for (let i = 0; i < (name || '').length; i++) h += name.charCodeAt(i);
+      return COLORS[h % COLORS.length];
+    }
+
+    // ---- UI Actions ----
+    function toggleForm(clubId) {
+      document.getElementById('form-' + clubId).classList.toggle('open');
+    }
+
+    function addMember(clubId) {
+      const input = document.getElementById(clubId + '-name');
+      const name  = input.value.trim();
+      if (!name) { showToast('Введите имя участника', '⚠️'); return; }
+      const ok = Store.addMember(clubId, name);
+      if (!ok) { showToast('Участник уже существует', '⚠️'); return; }
+      input.value = '';
+      toggleForm(clubId);
+      renderAll();
+      showToast(`${name} добавлен в клуб!`, '🎉');
+    }
+
+    function removeMember(clubId, memberId) {
+      if (!confirm('Удалить участника? Все его данные будут потеряны.')) return;
+      Store.removeMember(clubId, memberId);
+      renderAll();
+      showToast('Участник удалён', '🗑');
+    }
+
+    function openLogModal(clubId) {
+      const data = Store.get(clubId);
+      const members = data.members || [];
+      if (members.length === 0) {
+        showToast('Сначала добавьте участников', '⚠️');
+        return;
+      }
+      document.getElementById('modal-club').value = clubId;
+      const sel = document.getElementById('modal-member');
+      sel.innerHTML = members.map(m => `<option value="${m.id}">${m.name}</option>`).join('');
+      document.getElementById('modal-points').value = 10;
+      document.getElementById('modal-note').value   = '';
+      document.getElementById('logModal').style.display = 'flex';
+    }
+
+    function closeLogModal() {
+      document.getElementById('logModal').style.display = 'none';
+    }
+
+    function logActivity() {
+      const clubId   = document.getElementById('modal-club').value;
+      const memberId = document.getElementById('modal-member').value;
+      const type     = document.getElementById('modal-type').value;
+      const points   = parseInt(document.getElementById('modal-points').value) || 10;
+      const note     = document.getElementById('modal-note').value.trim();
+
+      Store.logActivity(clubId, memberId, type, points, note);
+      closeLogModal();
+      renderAll();
+      showToast('Активность записана!', '✅');
+    }
+
+    function quickPoints(clubId, memberId) {
+      Store.logActivity(clubId, memberId, 'bonus', 10, '');
+      renderAll();
+      showToast('+10 очков добавлено!', '⭐');
+    }
+
+    function quickAttend(clubId, memberId) {
+      Store.logActivity(clubId, memberId, 'attendance', 5, '');
+      renderAll();
+      showToast('Посещение записано!', '✅');
+    }
+
+    // Close modal on backdrop click
+    document.getElementById('logModal').addEventListener('click', function (e) {
+      if (e.target === this) closeLogModal();
+    });
+  </script>
+</body>
+</html>
