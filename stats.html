@@ -87,16 +87,35 @@
     <!-- ============ SPORT PANEL ============ -->
     <div class="tab-panel active" id="panel-sport" role="tabpanel">
 
-      <div class="club-panel-header">
+      <!-- CHALLENGE LEADERBOARD -->
+      <div class="challenge-block" id="challengeBlock">
+        <div class="challenge-header">
+          <div class="challenge-title">
+            <span class="ch-icon">🏆</span>
+            <div>
+              <div class="ch-name">Спортивный челлендж</div>
+              <div class="ch-sub" id="ch-sub-text">Loading…</div>
+            </div>
+          </div>
+          <div class="challenge-settings">
+            <label class="ch-pts-label">Баллов за тренировку:</label>
+            <input type="number" id="ptsPerSession" min="1" max="999" style="width:64px;padding:6px 8px;border:2px solid var(--gray-light);border-radius:var(--radius-sm);font-family:inherit;font-weight:700;" onchange="updatePts()" />
+          </div>
+        </div>
+        <div class="challenge-totals" id="challengeTotals"></div>
+        <div class="challenge-table-wrap" id="challengeTable"></div>
+      </div>
+
+      <div class="club-panel-header" style="margin-top:32px;">
         <div class="club-panel-title">
-          <div class="cpt-icon">🏃</div>
-          Клуб «Спорт»
+          <div class="cpt-icon">⚙️</div>
+          Управление участниками
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <button class="btn btn-outline" style="color:var(--black);border-color:var(--gray-light);font-size:.8rem;padding:10px 16px;"
                   onclick="toggleForm('sport')">+ Добавить участника</button>
           <button class="btn btn-primary" style="font-size:.8rem;padding:10px 16px;"
-                  onclick="openLogModal('sport')">📝 Записать занятие</button>
+                  onclick="openLogModal('sport')">📝 Записать тренировку</button>
         </div>
       </div>
 
@@ -106,6 +125,10 @@
           <div class="form-group">
             <label>Имя участника</label>
             <input type="text" id="sport-name" placeholder="Например: Алексей Иванов" />
+          </div>
+          <div class="form-group">
+            <label>Telegram (без @)</label>
+            <input type="text" id="sport-telegram" placeholder="alexei_ivanov" />
           </div>
           <div class="form-group" style="flex:0 0 auto;">
             <label>&nbsp;</label>
@@ -125,7 +148,7 @@
 
       <!-- Activity log -->
       <div class="log-section">
-        <h3>📋 Журнал активностей</h3>
+        <h3>📋 Журнал тренировок</h3>
         <div class="activity-log" id="log-sport"></div>
       </div>
     </div>
@@ -151,6 +174,10 @@
           <div class="form-group">
             <label>Имя участника</label>
             <input type="text" id="english-name" placeholder="Например: Мария Петрова" />
+          </div>
+          <div class="form-group">
+            <label>Telegram (без @)</label>
+            <input type="text" id="english-telegram" placeholder="masha_petrova" />
           </div>
           <div class="form-group" style="flex:0 0 auto;">
             <label>&nbsp;</label>
@@ -194,6 +221,10 @@
           <div class="form-group">
             <label>Имя участника</label>
             <input type="text" id="reading-name" placeholder="Например: Дмитрий Смирнов" />
+          </div>
+          <div class="form-group">
+            <label>Telegram (без @)</label>
+            <input type="text" id="reading-telegram" placeholder="dmitry_smirnov" />
           </div>
           <div class="form-group" style="flex:0 0 auto;">
             <label>&nbsp;</label>
@@ -311,6 +342,101 @@
     function renderAll() {
       ['sport', 'english', 'reading'].forEach(renderClub);
       renderGlobalSummary();
+      renderChallenge();
+    }
+
+    // ---- Challenge Leaderboard (Sport) ----
+    function renderChallenge() {
+      const pts  = Store.SPORT_POINTS_PER_SESSION;
+      const ptsInput = document.getElementById('ptsPerSession');
+      if (ptsInput && !ptsInput.dataset.init) {
+        ptsInput.value = pts;
+        ptsInput.dataset.init = '1';
+      }
+
+      const data    = Store.get('sport');
+      const members = data.members || [];
+      const totalSessions = members.reduce((s, m) => s + (m.sessions || 0), 0);
+      const totalPoints   = members.reduce((s, m) => s + (m.score || 0), 0);
+
+      // Sub-text
+      const sub = document.getElementById('ch-sub-text');
+      if (sub) sub.textContent = `${pts} баллов за тренировку`;
+
+      // Totals banner
+      const totals = document.getElementById('challengeTotals');
+      if (totals) totals.innerHTML = `
+        <div class="ch-total-item"><span class="ch-t-val">${members.length}</span><span class="ch-t-lbl">Участников</span></div>
+        <div class="ch-total-item"><span class="ch-t-val">${totalSessions}</span><span class="ch-t-lbl">Тренировок</span></div>
+        <div class="ch-total-item"><span class="ch-t-val orange">${totalPoints}</span><span class="ch-t-lbl">Командных баллов</span></div>
+      `;
+
+      // Leaderboard table
+      const tableWrap = document.getElementById('challengeTable');
+      if (!tableWrap) return;
+
+      if (members.length === 0) {
+        tableWrap.innerHTML = `<div class="empty-state"><div class="es-icon">🏃</div><p>Добавьте первых участников!</p></div>`;
+        return;
+      }
+
+      const sorted = [...members].sort((a, b) => (b.sessions || 0) - (a.sessions || 0));
+      const maxSessions = sorted[0] ? (sorted[0].sessions || 0) : 1;
+
+      const MEDALS = ['🥇', '🥈', '🥉'];
+
+      tableWrap.innerHTML = `
+        <table class="challenge-table">
+          <thead>
+            <tr>
+              <th class="col-rank">Место</th>
+              <th class="col-name">Участник</th>
+              <th class="col-tg">Telegram</th>
+              <th class="col-sess">Тренировок</th>
+              <th class="col-pts">Баллов</th>
+              <th class="col-bar">Вклад</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${sorted.map((m, i) => {
+              const rank    = i + 1;
+              const medal   = MEDALS[i] || '';
+              const sess    = m.sessions || 0;
+              const mPts    = m.score || 0;
+              const pct     = totalPoints > 0 ? Math.round((mPts / totalPoints) * 100) : 0;
+              const barPct  = maxSessions > 0 ? Math.round((sess / maxSessions) * 100) : 0;
+              const tg      = m.telegram ? `<a href="https://t.me/${m.telegram}" target="_blank" style="color:var(--orange);font-weight:700;">@${m.telegram}</a>` : '<span style="color:var(--gray)">—</span>';
+              const rowClass = rank <= 3 ? `top-${rank}` : '';
+              return `
+                <tr class="ch-row ${rowClass}">
+                  <td class="col-rank">
+                    <span class="ch-rank-num">${medal || rank}</span>
+                  </td>
+                  <td class="col-name">
+                    <div class="member-name-cell">
+                      <div class="member-avatar" style="background:${avatarColor(m.name)}">${initials(m.name)}</div>
+                      <span>${m.name}</span>
+                    </div>
+                  </td>
+                  <td class="col-tg">${tg}</td>
+                  <td class="col-sess"><strong>${sess}</strong></td>
+                  <td class="col-pts"><strong style="color:var(--orange);font-size:1rem;">${mPts}</strong></td>
+                  <td class="col-bar">
+                    <div class="ch-bar-wrap">
+                      <div class="ch-bar-fill" style="width:${barPct}%"></div>
+                    </div>
+                    <span class="ch-pct">${pct}%</span>
+                  </td>
+                </tr>`;
+            }).join('')}
+          </tbody>
+        </table>`;
+    }
+
+    function updatePts() {
+      const v = parseInt(document.getElementById('ptsPerSession').value) || 10;
+      Store.setSportPointsPerSession(v);
+      renderChallenge();
     }
 
     function renderGlobalSummary() {
@@ -368,6 +494,7 @@
             <tr>
               <th>#</th>
               <th>Участник</th>
+              <th>Telegram</th>
               <th>Занятий</th>
               <th>Серия</th>
               <th>Очки</th>
@@ -376,7 +503,11 @@
             </tr>
           </thead>
           <tbody>
-            ${sorted.map((m, i) => `
+            ${sorted.map((m, i) => {
+              const tg = m.telegram
+                ? `<a href="https://t.me/${m.telegram}" target="_blank" style="color:var(--orange);font-weight:700;font-size:.8rem;">@${m.telegram}</a>`
+                : '<span style="color:var(--gray);font-size:.8rem;">—</span>';
+              return `
               <tr>
                 <td><strong style="color:var(--orange)">${i + 1}</strong></td>
                 <td>
@@ -385,6 +516,7 @@
                     ${m.name}
                   </div>
                 </td>
+                <td>${tg}</td>
                 <td>${m.sessions || 0}</td>
                 <td>
                   <div class="streak-bar">
@@ -408,7 +540,8 @@
                             onclick="removeMember('${clubId}', '${m.id}')">🗑</button>
                   </div>
                 </td>
-              </tr>`).join('')}
+              </tr>`;
+            }).join('')}
           </tbody>
         </table>`;
     }
@@ -460,12 +593,15 @@
     }
 
     function addMember(clubId) {
-      const input = document.getElementById(clubId + '-name');
-      const name  = input.value.trim();
+      const nameInput = document.getElementById(clubId + '-name');
+      const tgInput   = document.getElementById(clubId + '-telegram');
+      const name      = nameInput.value.trim();
+      const telegram  = tgInput ? tgInput.value.trim() : '';
       if (!name) { showToast('Введите имя участника', '⚠️'); return; }
-      const ok = Store.addMember(clubId, name);
+      const ok = Store.addMember(clubId, name, telegram);
       if (!ok) { showToast('Участник уже существует', '⚠️'); return; }
-      input.value = '';
+      nameInput.value = '';
+      if (tgInput) tgInput.value = '';
       toggleForm(clubId);
       renderAll();
       showToast(`${name} добавлен в клуб!`, '🎉');

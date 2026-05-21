@@ -43,7 +43,7 @@ const Store = (function () {
    * Add a new member to a club.
    * Returns false if a member with the same name already exists.
    */
-  function addMember(clubId, name) {
+  function addMember(clubId, name, telegram) {
     const data = get(clubId);
     const normalized = name.trim();
     if (!normalized) return false;
@@ -56,6 +56,7 @@ const Store = (function () {
     data.members.push({
       id:       uid(),
       name:     normalized,
+      telegram: (telegram || '').trim().replace(/^@+/, ''),
       sessions: 0,
       score:    0,
       streak:   0,
@@ -187,6 +188,16 @@ const Store = (function () {
     Object.values(KEYS).forEach(key => localStorage.removeItem(key));
   }
 
+  const SPORT_POINTS_PER_SESSION = (function () {
+    try { return parseInt(localStorage.getItem('pokolenie_pts_per_session')) || 10; }
+    catch { return 10; }
+  })();
+
+  function setSportPointsPerSession(n) {
+    try { localStorage.setItem('pokolenie_pts_per_session', String(parseInt(n) || 10)); }
+    catch {}
+  }
+
   // Public API
   return {
     get,
@@ -199,6 +210,8 @@ const Store = (function () {
     exportAll,
     importAll,
     clearAll,
+    SPORT_POINTS_PER_SESSION,
+    setSportPointsPerSession,
   };
 })();
 
