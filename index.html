@@ -8,7 +8,6 @@
 </head>
 <body>
 
-  <!-- ===== HEADER ===== -->
   <header class="site-header">
     <div class="header-inner">
       <a href="index.html" class="logo">ПОКОЛЕНИЕ<span></span></a>
@@ -25,16 +24,10 @@
     </div>
   </header>
 
-  <!-- ===== HERO ===== -->
-  <!--
-    ФОТО ГРУППЫ: чтобы добавить фотографию на фон —
-    замени строку ниже:  style="background-image: url('images/group-photo.jpg')"
-    и раскомментируй атрибут style на теге <section class="hero">
-  -->
   <section class="hero" id="heroSection">
     <div class="hero-overlay"></div>
     <div class="hero-label">Сообщество Михаила Гребенюка</div>
-    <h1>ПО<span class="accent">КО</span>ЛЕНИЕ</h1>
+    <h1>ПОКОЛЕНИЕ</h1>
     <p class="hero-sub">
       Три клуба — спорт, язык и книги. Развиваемся вместе,
       отслеживаем прогресс и поддерживаем друг друга каждый день.
@@ -45,39 +38,22 @@
     </div>
   </section>
 
-  <!-- ===== STATS BANNER ===== -->
   <div class="stats-banner">
     <div class="stats-banner-inner">
-      <div class="stat-block">
-        <span class="num" id="totalMembers">0</span>
-        <span class="txt">Участников</span>
-      </div>
-      <div class="stat-block">
-        <span class="num" id="totalSessions">0</span>
-        <span class="txt">Занятий проведено</span>
-      </div>
-      <div class="stat-block">
-        <span class="num" id="totalScore">0</span>
-        <span class="txt">Общих очков</span>
-      </div>
-      <div class="stat-block">
-        <span class="num">3</span>
-        <span class="txt">Активных клуба</span>
-      </div>
+      <div class="stat-block"><span class="num" id="totalMembers">0</span><span class="txt">Участников</span></div>
+      <div class="stat-block"><span class="num" id="totalSessions">0</span><span class="txt">Занятий проведено</span></div>
+      <div class="stat-block"><span class="num" id="totalScore">0</span><span class="txt">Общих очков</span></div>
+      <div class="stat-block"><span class="num">3</span><span class="txt">Активных клуба</span></div>
     </div>
   </div>
 
-  <!-- ===== CLUBS SECTION ===== -->
   <main id="clubs">
     <div class="section">
       <div class="section-header">
         <h2 class="section-title">Наши клубы<span class="dot">.</span></h2>
         <a href="stats.html" class="section-link">Вся статистика →</a>
       </div>
-
       <div class="clubs-grid">
-
-        <!-- SPORT -->
         <article class="club-card" id="card-sport">
           <div class="club-card-top">
             <div class="club-icon sport">🏃</div>
@@ -87,26 +63,15 @@
             </div>
           </div>
           <div class="club-stats">
-            <div class="stat-chip">
-              <span class="val" id="sport-members">0</span>
-              <span class="lbl">Участников</span>
-            </div>
-            <div class="stat-chip">
-              <span class="val" id="sport-sessions">0</span>
-              <span class="lbl">Занятий</span>
-            </div>
-            <div class="stat-chip">
-              <span class="val" id="sport-score">0</span>
-              <span class="lbl">Очков</span>
-            </div>
+            <div class="stat-chip"><span class="val" id="sport-members">0</span><span class="lbl">Участников</span></div>
+            <div class="stat-chip"><span class="val" id="sport-sessions">0</span><span class="lbl">Занятий</span></div>
+            <div class="stat-chip"><span class="val" id="sport-score">0</span><span class="lbl">Очков</span></div>
           </div>
           <div class="club-card-footer">
             <div class="member-avatars" id="sport-avatars"></div>
             <a href="stats.html#sport" class="club-link">Подробнее →</a>
           </div>
         </article>
-
-        <!-- ENGLISH -->
         <article class="club-card" id="card-english">
           <div class="club-card-top">
             <div class="club-icon english">🇬🇧</div>
@@ -116,26 +81,15 @@
             </div>
           </div>
           <div class="club-stats">
-            <div class="stat-chip">
-              <span class="val" id="english-members">0</span>
-              <span class="lbl">Участников</span>
-            </div>
-            <div class="stat-chip">
-              <span class="val" id="english-sessions">0</span>
-              <span class="lbl">Занятий</span>
-            </div>
-            <div class="stat-chip">
-              <span class="val" id="english-score">0</span>
-              <span class="lbl">Очков</span>
-            </div>
+            <div class="stat-chip"><span class="val" id="english-members">0</span><span class="lbl">Участников</span></div>
+            <div class="stat-chip"><span class="val" id="english-sessions">0</span><span class="lbl">Занятий</span></div>
+            <div class="stat-chip"><span class="val" id="english-score">0</span><span class="lbl">Очков</span></div>
           </div>
           <div class="club-card-footer">
             <div class="member-avatars" id="english-avatars"></div>
             <a href="stats.html#english" class="club-link">Подробнее →</a>
           </div>
         </article>
-
-        <!-- READING -->
         <article class="club-card" id="card-reading">
           <div class="club-card-top">
             <div class="club-icon reading">📚</div>
@@ -145,78 +99,41 @@
             </div>
           </div>
           <div class="club-stats">
-            <div class="stat-chip">
-              <span class="val" id="reading-members">0</span>
-              <span class="lbl">Участников</span>
-            </div>
-            <div class="stat-chip">
-              <span class="val" id="reading-sessions">0</span>
-              <span class="lbl">Занятий</span>
-            </div>
-            <div class="stat-chip">
-              <span class="val" id="reading-score">0</span>
-              <span class="lbl">Очков</span>
-            </div>
+            <div class="stat-chip"><span class="val" id="reading-members">0</span><span class="lbl">Участников</span></div>
+            <div class="stat-chip"><span class="val" id="reading-sessions">0</span><span class="lbl">Занятий</span></div>
+            <div class="stat-chip"><span class="val" id="reading-score">0</span><span class="lbl">Очков</span></div>
           </div>
           <div class="club-card-footer">
             <div class="member-avatars" id="reading-avatars"></div>
             <a href="stats.html#reading" class="club-link">Подробнее →</a>
           </div>
         </article>
-
       </div>
     </div>
   </main>
 
-  <!-- ===== ABOUT SECTION ===== -->
   <section id="about">
     <div class="section">
       <div class="about-grid">
         <div class="about-text">
           <h2>О сообществе<span style="color:var(--orange)">.</span></h2>
-          <p>
-            <span class="highlight">ПОКОЛЕНИЕ</span> — это живое сообщество людей,
-            которые хотят расти каждый день. Мы объединились вокруг трёх направлений:
-            физическое развитие, изучение английского языка и погружение в книги.
-          </p>
-          <p>
-            Мы верим, что маленькие ежедневные шаги — главный секрет больших результатов.
-            Наша статистика помогает отслеживать прогресс и оставаться мотивированными.
-          </p>
+          <p><span class="highlight">ПОКОЛЕНИЕ</span> — это живое сообщество людей, которые хотят расти каждый день.</p>
+          <p>Мы верим, что маленькие ежедневные шаги — главный секрет больших результатов.</p>
           <ul class="feature-list">
-            <li class="feature-item">
-              <span class="fi-icon">🏆</span>
-              Система очков и достижений
-            </li>
-            <li class="feature-item">
-              <span class="fi-icon">🔥</span>
-              Отслеживание серий активности (streak)
-            </li>
-            <li class="feature-item">
-              <span class="fi-icon">📊</span>
-              Прозрачная статистика для каждого участника
-            </li>
-            <li class="feature-item">
-              <span class="fi-icon">🤝</span>
-              Поддержка и взаимная ответственность
-            </li>
+            <li class="feature-item"><span class="fi-icon">🏆</span> Система очков и достижений</li>
+            <li class="feature-item"><span class="fi-icon">🔥</span> Отслеживание серий активности</li>
+            <li class="feature-item"><span class="fi-icon">📊</span> Прозрачная статистика</li>
+            <li class="feature-item"><span class="fi-icon">🤝</span> Поддержка и ответственность</li>
           </ul>
         </div>
         <div class="about-visual">
-          <div class="about-quote">
-            Настоящее поколение — то, которое работает над собой каждый день,
-            не ждёт удобного момента и вдохновляет других своим примером.
-          </div>
-          <div class="about-author">
-            <strong>Михаил Гребенюк</strong>
-            Основатель сообщества
-          </div>
+          <div class="about-quote">Настоящее поколение — то, которое работает над собой каждый день, не ждёт удобного момента и вдохновляет других своим примером.</div>
+          <div class="about-author"><strong>Михаил Гребенюк</strong>Основатель сообщества</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== FOOTER ===== -->
   <footer class="site-footer">
     <span class="footer-logo">ПОКОЛЕНИЕ</span>
     &copy; 2025 Сообщество Михаила Гребенюка. Все права защищены.
@@ -227,43 +144,30 @@
     document.getElementById('hamburger').addEventListener('click', function () {
       document.getElementById('siteNav').classList.toggle('open');
     });
-
     (function renderIndexStats() {
       const clubs = ['sport', 'english', 'reading'];
       let totalMembers = 0, totalSessions = 0, totalScore = 0;
-
       clubs.forEach(clubId => {
         const data = Store.get(clubId);
         const members = data.members || [];
         const sessions = members.reduce((s, m) => s + (m.sessions || 0), 0);
         const score    = members.reduce((s, m) => s + (m.score || 0), 0);
-
         document.getElementById(clubId + '-members').textContent = members.length;
         document.getElementById(clubId + '-sessions').textContent = sessions;
         document.getElementById(clubId + '-score').textContent   = score;
-
         const container = document.getElementById(clubId + '-avatars');
         const show = members.slice(0, 3);
-        container.innerHTML = show.map(m =>
-          `<div class="avatar">${initials(m.name)}</div>`
-        ).join('');
-        if (members.length > 3) {
-          container.innerHTML += `<div class="avatar avatar-more">+${members.length - 3}</div>`;
-        }
-
+        container.innerHTML = show.map(m => `<div class="avatar">${initials(m.name)}</div>`).join('');
+        if (members.length > 3) container.innerHTML += `<div class="avatar avatar-more">+${members.length - 3}</div>`;
         totalMembers  += members.length;
         totalSessions += sessions;
         totalScore    += score;
       });
-
       document.getElementById('totalMembers').textContent  = totalMembers;
       document.getElementById('totalSessions').textContent = totalSessions;
       document.getElementById('totalScore').textContent    = totalScore;
     })();
-
-    function initials(name) {
-      return (name || '?').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-    }
+    function initials(name) { return (name || '?').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2); }
   </script>
 </body>
 </html>
