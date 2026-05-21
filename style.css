@@ -1,5 +1,6 @@
 /* =========================================
    ПОКОЛЕНИЕ — Community Group Styles
+   White / Orange / Black Theme
    ========================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
@@ -12,29 +13,30 @@
 }
 
 :root {
-  --orange:   #FF6B00;
-  --orange-light: #FF8C33;
-  --orange-dark:  #CC5500;
-  --black:    #1A1A1A;
-  --black-2:  #2C2C2C;
-  --gray-dark: #4A4A4A;
-  --gray:     #888888;
-  --gray-light: #E8E8E8;
-  --white:    #FFFFFF;
-  --bg:       #F7F7F7;
+  --orange:        #FF6B00;
+  --orange-light:  #FF8C33;
+  --orange-dark:   #CC5500;
+  --orange-tint:   #FFF8F3;
+  --black:         #1A1A1A;
+  --black-2:       #2C2C2C;
+  --gray-dark:     #4A4A4A;
+  --gray:          #888888;
+  --gray-light:    #E8E8E8;
+  --white:         #FFFFFF;
+  --bg:            #F7F7F7;
 
-  --radius:   12px;
-  --radius-sm: 6px;
-  --shadow:   0 4px 24px rgba(0,0,0,.10);
-  --shadow-hover: 0 8px 32px rgba(0,0,0,.18);
-  --transition: .25s ease;
+  --radius:        12px;
+  --radius-sm:     6px;
+  --shadow:        0 4px 24px rgba(0,0,0,.08);
+  --shadow-hover:  0 12px 40px rgba(0,0,0,.14);
+  --transition:    .25s ease;
 }
 
 html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Montserrat', sans-serif;
-  background: var(--bg);
+  background: var(--white);
   color: var(--black);
   line-height: 1.6;
   min-height: 100vh;
@@ -44,7 +46,9 @@ a { color: inherit; text-decoration: none; }
 ul { list-style: none; }
 img { max-width: 100%; }
 
-/* ---- Header / Nav ---- */
+/* ===================================================
+   HEADER / NAV  (black — the ONLY major black element)
+   =================================================== */
 .site-header {
   background: var(--black);
   position: sticky;
@@ -100,20 +104,20 @@ img { max-width: 100%; }
   transition: color var(--transition), background var(--transition);
 }
 
-.site-nav a:hover,
-.site-nav a.active {
+.site-nav a:hover {
   color: var(--white);
   background: rgba(255,107,0,.15);
 }
 
 .site-nav a.active {
   color: var(--orange);
+  background: rgba(255,107,0,.1);
 }
 
 .nav-btn {
   background: var(--orange) !important;
   color: var(--white) !important;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-sm) !important;
   padding: 8px 18px !important;
   transition: background var(--transition) !important;
 }
@@ -142,29 +146,53 @@ img { max-width: 100%; }
   transition: var(--transition);
 }
 
-/* ---- Hero Section ---- */
+/* ===================================================
+   HERO — white background, big orange text
+   =================================================== */
 .hero {
-  background: var(--black);
-  color: var(--white);
+  background: var(--white);
+  color: var(--black);
   padding: 100px 24px 80px;
   text-align: center;
   position: relative;
   overflow: hidden;
 }
 
+/* Decorative orange circle / gradient */
 .hero::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 60% 50%, rgba(255,107,0,.18) 0%, transparent 70%);
+  right: -120px;
+  top: -80px;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,107,0,.14) 0%, rgba(255,107,0,.04) 55%, transparent 75%);
   pointer-events: none;
 }
 
+.hero::after {
+  content: '';
+  position: absolute;
+  left: -80px;
+  bottom: -60px;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,107,0,.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* No overlay needed on white hero */
+.hero-overlay { display: none; }
+
+.hero > *:not(.hero-overlay) { position: relative; z-index: 1; }
+
 .hero-label {
   display: inline-block;
-  background: rgba(255,107,0,.15);
+  background: rgba(255,107,0,.10);
   color: var(--orange);
-  border: 1px solid rgba(255,107,0,.35);
+  border: 1.5px solid rgba(255,107,0,.30);
   border-radius: 100px;
   padding: 6px 20px;
   font-size: .75rem;
@@ -175,20 +203,22 @@ img { max-width: 100%; }
 }
 
 .hero h1 {
-  font-size: clamp(2.8rem, 8vw, 6rem);
+  font-size: clamp(3rem, 9vw, 7rem);
   font-weight: 900;
   letter-spacing: .08em;
   text-transform: uppercase;
-  line-height: 1.05;
-  margin-bottom: 20px;
+  line-height: 1.0;
+  margin-bottom: 24px;
+  color: var(--orange);
 }
 
+/* Keep .accent for compatibility — same orange */
 .hero h1 .accent { color: var(--orange); }
 
 .hero-sub {
   font-size: 1.1rem;
-  font-weight: 400;
-  color: rgba(255,255,255,.65);
+  font-weight: 500;
+  color: var(--gray-dark);
   max-width: 520px;
   margin: 0 auto 40px;
 }
@@ -200,6 +230,9 @@ img { max-width: 100%; }
   justify-content: center;
 }
 
+/* ===================================================
+   BUTTONS
+   =================================================== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -212,7 +245,7 @@ img { max-width: 100%; }
   letter-spacing: .04em;
   cursor: pointer;
   border: none;
-  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition), border-color var(--transition);
 }
 
 .btn-primary {
@@ -223,25 +256,71 @@ img { max-width: 100%; }
 .btn-primary:hover {
   background: var(--orange-light);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255,107,0,.4);
+  box-shadow: 0 6px 20px rgba(255,107,0,.35);
 }
 
 .btn-outline {
   background: transparent;
-  color: var(--white);
-  border: 2px solid rgba(255,255,255,.3);
+  color: var(--orange);
+  border: 2px solid var(--orange);
 }
 
 .btn-outline:hover {
-  border-color: var(--white);
+  background: rgba(255,107,0,.07);
   transform: translateY(-2px);
 }
 
-/* ---- Section Layout ---- */
+/* ===================================================
+   STATS BANNER — orange background (was black)
+   =================================================== */
+.stats-banner {
+  background: var(--orange);
+}
+
+.stats-banner-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 56px 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 32px;
+  text-align: center;
+}
+
+.stat-block .num {
+  display: block;
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1;
+}
+
+.stat-block .txt {
+  display: block;
+  font-size: .82rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.80);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-top: 8px;
+}
+
+/* ===================================================
+   SECTION LAYOUT
+   =================================================== */
 .section {
   max-width: 1200px;
   margin: 0 auto;
   padding: 72px 24px;
+}
+
+/* Alternating section tint */
+main#clubs {
+  background: var(--white);
+}
+
+section#about {
+  background: var(--orange-tint);
 }
 
 .section-header {
@@ -257,11 +336,10 @@ img { max-width: 100%; }
   font-size: 1.8rem;
   font-weight: 800;
   letter-spacing: .03em;
+  color: var(--black);
 }
 
-.section-title .dot {
-  color: var(--orange);
-}
+.section-title .dot { color: var(--orange); }
 
 .section-link {
   color: var(--orange);
@@ -277,7 +355,9 @@ img { max-width: 100%; }
 
 .section-link:hover { gap: 10px; }
 
-/* ---- Club Cards ---- */
+/* ===================================================
+   CLUB CARDS — white, orange top border on hover
+   =================================================== */
 .clubs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -289,14 +369,16 @@ img { max-width: 100%; }
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   overflow: hidden;
-  transition: box-shadow var(--transition), transform var(--transition);
+  transition: box-shadow var(--transition), transform var(--transition), border-top-color var(--transition);
   display: flex;
   flex-direction: column;
+  border-top: 4px solid transparent;
 }
 
 .club-card:hover {
   box-shadow: var(--shadow-hover);
-  transform: translateY(-4px);
+  transform: translateY(-6px);
+  border-top-color: var(--orange);
 }
 
 .club-card-top {
@@ -315,11 +397,12 @@ img { max-width: 100%; }
   justify-content: center;
   font-size: 1.6rem;
   flex-shrink: 0;
+  background: rgba(255,107,0,.12);
 }
 
-.club-icon.sport    { background: rgba(255,107,0,.12); }
-.club-icon.english  { background: rgba(26,26,26,.07); }
-.club-icon.reading  { background: rgba(255,107,0,.08); }
+.club-icon.sport   { background: rgba(255,107,0,.14); }
+.club-icon.english { background: rgba(255,107,0,.10); }
+.club-icon.reading { background: rgba(255,107,0,.12); }
 
 .club-meta { flex: 1; }
 
@@ -327,6 +410,7 @@ img { max-width: 100%; }
   font-size: 1.15rem;
   font-weight: 800;
   margin-bottom: 4px;
+  color: var(--black);
 }
 
 .club-desc {
@@ -343,7 +427,7 @@ img { max-width: 100%; }
 }
 
 .stat-chip {
-  background: var(--bg);
+  background: var(--orange-tint);
   border-radius: var(--radius-sm);
   padding: 10px 8px;
   text-align: center;
@@ -375,9 +459,7 @@ img { max-width: 100%; }
   justify-content: space-between;
 }
 
-.member-avatars {
-  display: flex;
-}
+.member-avatars { display: flex; }
 
 .avatar {
   width: 28px;
@@ -415,41 +497,9 @@ img { max-width: 100%; }
 
 .club-link:hover { gap: 8px; }
 
-/* ---- Stats Banner ---- */
-.stats-banner {
-  background: var(--black);
-  color: var(--white);
-}
-
-.stats-banner-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 64px 24px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 40px;
-  text-align: center;
-}
-
-.stat-block .num {
-  display: block;
-  font-size: 2.8rem;
-  font-weight: 900;
-  color: var(--orange);
-  line-height: 1;
-}
-
-.stat-block .txt {
-  display: block;
-  font-size: .82rem;
-  font-weight: 600;
-  color: rgba(255,255,255,.55);
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  margin-top: 8px;
-}
-
-/* ---- About Section ---- */
+/* ===================================================
+   ABOUT SECTION
+   =================================================== */
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -461,6 +511,7 @@ img { max-width: 100%; }
   font-size: 2rem;
   font-weight: 800;
   margin-bottom: 16px;
+  color: var(--black);
 }
 
 .about-text p {
@@ -501,6 +552,7 @@ img { max-width: 100%; }
   flex-shrink: 0;
 }
 
+/* Quote card — dark for contrast on tint background */
 .about-visual {
   background: var(--black);
   border-radius: var(--radius);
@@ -518,7 +570,7 @@ img { max-width: 100%; }
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background: rgba(255,107,0,.12);
+  background: rgba(255,107,0,.14);
   pointer-events: none;
 }
 
@@ -555,7 +607,9 @@ img { max-width: 100%; }
   font-size: .9rem;
 }
 
-/* ---- Footer ---- */
+/* ===================================================
+   FOOTER — black (only black alongside header)
+   =================================================== */
 .site-footer {
   background: var(--black);
   color: rgba(255,255,255,.5);
@@ -574,15 +628,12 @@ img { max-width: 100%; }
   margin-bottom: 8px;
 }
 
-/* ============================================================
-   STATS PAGE STYLES
-   ============================================================ */
-
-.stats-page body { background: var(--bg); }
-
+/* ===================================================
+   STATS PAGE — page header (white bg, orange accent)
+   =================================================== */
 .page-hero {
-  background: var(--black);
-  color: var(--white);
+  background: var(--white);
+  border-bottom: 3px solid var(--orange);
   padding: 48px 24px 36px;
 }
 
@@ -594,7 +645,7 @@ img { max-width: 100%; }
 .page-hero .breadcrumb {
   font-size: .78rem;
   font-weight: 600;
-  color: rgba(255,255,255,.4);
+  color: var(--gray);
   letter-spacing: .06em;
   text-transform: uppercase;
   margin-bottom: 12px;
@@ -609,70 +660,32 @@ img { max-width: 100%; }
   font-weight: 900;
   letter-spacing: .06em;
   text-transform: uppercase;
+  color: var(--black);
 }
 
 .page-hero h1 .accent { color: var(--orange); }
 
 .page-hero p {
   margin-top: 8px;
-  color: rgba(255,255,255,.5);
+  color: var(--gray-dark);
   font-size: .9rem;
 }
 
-/* Tabs */
-.tabs-wrap {
+/* ===================================================
+   GLOBAL SUMMARY CARDS (stats page top)
+   =================================================== */
+.global-summary-wrap {
+  background: var(--orange-tint);
+  border-bottom: 1px solid rgba(255,107,0,.15);
+  padding: 32px 24px;
+}
+
+.dash-summary {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px;
-}
-
-.tabs {
-  display: flex;
-  gap: 4px;
-  border-bottom: 2px solid var(--gray-light);
-  margin-bottom: 36px;
-  overflow-x: auto;
-  padding-top: 24px;
-}
-
-.tab-btn {
-  background: none;
-  border: none;
-  font-family: 'Montserrat', sans-serif;
-  font-size: .88rem;
-  font-weight: 700;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  color: var(--gray);
-  padding: 12px 20px;
-  cursor: pointer;
-  border-bottom: 3px solid transparent;
-  margin-bottom: -2px;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: color var(--transition);
-}
-
-.tab-btn .tab-icon { font-size: 1.1rem; }
-
-.tab-btn:hover { color: var(--black); }
-
-.tab-btn.active {
-  color: var(--orange);
-  border-bottom-color: var(--orange);
-}
-
-.tab-panel { display: none; }
-.tab-panel.active { display: block; }
-
-/* Dashboard Summary */
-.dash-summary {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 16px;
-  margin-bottom: 32px;
 }
 
 .dash-card {
@@ -683,6 +696,7 @@ img { max-width: 100%; }
   display: flex;
   align-items: center;
   gap: 14px;
+  border-top: 3px solid var(--orange);
 }
 
 .dash-card .dc-icon {
@@ -713,42 +727,237 @@ img { max-width: 100%; }
   margin-top: 4px;
 }
 
-/* Club Panel */
+/* ===================================================
+   CLUB SECTION HEADERS (3 stacked sections)
+   =================================================== */
+.club-section {
+  padding: 0;
+}
+
+.club-section + .club-section {
+  border-top: 2px solid var(--gray-light);
+}
+
+.club-section:nth-child(even) {
+  background: var(--orange-tint);
+}
+
+.club-section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+/* Orange header bar for each club section */
+.club-section-header {
+  background: var(--orange);
+  border-radius: var(--radius);
+  padding: 18px 28px;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.club-section-title {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--white);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.club-section-sub {
+  font-size: .82rem;
+  color: rgba(255,255,255,.80);
+  font-weight: 600;
+}
+
+/* ===================================================
+   CHALLENGE LEADERBOARD
+   =================================================== */
+.challenge-block {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+/* Totals row inside challenge block */
+.challenge-totals {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--gray-light);
+  background: var(--orange-tint);
+}
+
+.ch-total-item {
+  flex: 1;
+  padding: 18px 20px;
+  text-align: center;
+  border-right: 1px solid rgba(255,107,0,.15);
+}
+
+.ch-total-item:last-child { border-right: none; }
+
+.ch-t-val {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--black);
+  line-height: 1;
+}
+
+.ch-t-val.orange { color: var(--orange); }
+
+.ch-t-lbl {
+  display: block;
+  font-size: .75rem;
+  color: var(--gray);
+  font-weight: 600;
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+/* Challenge settings bar */
+.challenge-settings-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--gray-light);
+  flex-wrap: wrap;
+}
+
+.ch-pts-label {
+  font-size: .82rem;
+  color: var(--gray-dark);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.challenge-table-wrap { overflow-x: auto; }
+
+.challenge-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .875rem;
+}
+
+.challenge-table thead th {
+  padding: 12px 16px;
+  background: var(--orange-tint);
+  font-size: .72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--gray-dark);
+  border-bottom: 2px solid rgba(255,107,0,.20);
+  white-space: nowrap;
+}
+
+.challenge-table .col-rank  { width: 60px; text-align: center; }
+.challenge-table .col-name  { min-width: 160px; }
+.challenge-table .col-tg    { min-width: 130px; }
+.challenge-table .col-sess,
+.challenge-table .col-pts   { width: 90px; text-align: center; }
+.challenge-table .col-bar   { min-width: 180px; }
+
+.ch-row td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--gray-light);
+  vertical-align: middle;
+}
+
+.ch-row:last-child td { border-bottom: none; }
+
+.ch-row:hover td { background: rgba(255,107,0,.05); }
+
+/* Gold / Silver / Bronze row tints */
+.ch-row.top-1 { background: linear-gradient(90deg, #fffbe6 0%, transparent 70%); }
+.ch-row.top-2 { background: linear-gradient(90deg, #f5f5f5 0%, transparent 70%); }
+.ch-row.top-3 { background: linear-gradient(90deg, #fff3e8 0%, transparent 70%); }
+
+.ch-rank-num {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--black);
+  display: block;
+  text-align: center;
+}
+
+.ch-bar-wrap {
+  height: 8px;
+  background: var(--gray-light);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.ch-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--orange-dark), var(--orange));
+  border-radius: 4px;
+  transition: width .4s ease;
+  min-width: 2px;
+}
+
+.ch-pct {
+  font-size: .75rem;
+  color: var(--gray);
+  font-weight: 700;
+}
+
+/* ===================================================
+   CLUB PANEL (management section below leaderboard)
+   =================================================== */
 .club-panel-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .club-panel-title {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 800;
+  color: var(--black);
 }
 
-.club-panel-title .cpt-icon {
-  width: 40px;
-  height: 40px;
+.cpt-icon {
+  width: 36px;
+  height: 36px;
   border-radius: var(--radius-sm);
   background: rgba(255,107,0,.12);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
-/* Form */
+/* ===================================================
+   FORM
+   =================================================== */
 .add-member-form {
   background: var(--white);
   border-radius: var(--radius);
   padding: 24px;
   box-shadow: var(--shadow);
-  margin-bottom: 28px;
+  margin-bottom: 20px;
+  border-left: 4px solid var(--orange);
   display: none;
 }
 
@@ -796,7 +1005,9 @@ img { max-width: 100%; }
   border-color: var(--orange);
 }
 
-/* Members Table */
+/* ===================================================
+   MEMBERS TABLE
+   =================================================== */
 .members-table-wrap {
   background: var(--white);
   border-radius: var(--radius);
@@ -810,14 +1021,15 @@ img { max-width: 100%; }
 }
 
 .members-table th {
-  background: var(--black);
-  color: rgba(255,255,255,.7);
+  background: var(--orange-tint);
+  color: var(--gray-dark);
   font-size: .72rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .08em;
   padding: 14px 18px;
   text-align: left;
+  border-bottom: 2px solid rgba(255,107,0,.20);
 }
 
 .members-table th:first-child { color: var(--orange); }
@@ -831,7 +1043,7 @@ img { max-width: 100%; }
 
 .members-table tr:last-child td { border-bottom: none; }
 
-.members-table tbody tr:hover { background: rgba(255,107,0,.03); }
+.members-table tbody tr:hover td { background: rgba(255,107,0,.04); }
 
 .member-name-cell {
   display: flex;
@@ -854,6 +1066,9 @@ img { max-width: 100%; }
   flex-shrink: 0;
 }
 
+/* ===================================================
+   BADGES
+   =================================================== */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -868,16 +1083,16 @@ img { max-width: 100%; }
 .badge-green  { background: rgba(34,197,94,.12);  color: #15803d; }
 .badge-gray   { background: var(--gray-light);     color: var(--gray-dark); }
 
+/* ===================================================
+   STREAK DOTS
+   =================================================== */
 .streak-bar {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.streak-dots {
-  display: flex;
-  gap: 3px;
-}
+.streak-dots { display: flex; gap: 3px; }
 
 .streak-dot {
   width: 8px;
@@ -888,7 +1103,9 @@ img { max-width: 100%; }
 
 .streak-dot.on { background: var(--orange); }
 
-/* Action buttons */
+/* ===================================================
+   ACTION BUTTONS
+   =================================================== */
 .action-btns {
   display: flex;
   gap: 6px;
@@ -912,29 +1129,32 @@ img { max-width: 100%; }
 
 .icon-btn.danger:hover { background: rgba(220,38,38,.08); border-color: #dc2626; }
 
-/* Log Activity */
+/* ===================================================
+   LOG / ACTIVITY SECTION
+   =================================================== */
 .log-section {
   background: var(--white);
   border-radius: var(--radius);
   padding: 24px;
   box-shadow: var(--shadow);
-  margin-top: 28px;
+  margin-top: 20px;
 }
 
 .log-section h3 {
-  font-size: 1rem;
+  font-size: .95rem;
   font-weight: 800;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
   display: flex;
   align-items: center;
   gap: 8px;
+  color: var(--black);
 }
 
 .activity-log {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  max-height: 280px;
+  gap: 8px;
+  max-height: 220px;
   overflow-y: auto;
 }
 
@@ -943,18 +1163,13 @@ img { max-width: 100%; }
   align-items: center;
   gap: 12px;
   padding: 10px 14px;
-  background: var(--bg);
+  background: var(--orange-tint);
   border-radius: var(--radius-sm);
   font-size: .83rem;
 }
 
-.log-entry .le-icon {
-  font-size: 1rem;
-  flex-shrink: 0;
-}
-
+.log-entry .le-icon { font-size: 1rem; flex-shrink: 0; }
 .log-entry .le-text { flex: 1; font-weight: 500; }
-
 .log-entry .le-date {
   color: var(--gray);
   font-size: .75rem;
@@ -962,10 +1177,12 @@ img { max-width: 100%; }
   flex-shrink: 0;
 }
 
-/* Empty state */
+/* ===================================================
+   EMPTY STATE
+   =================================================== */
 .empty-state {
   text-align: center;
-  padding: 60px 24px;
+  padding: 48px 24px;
   color: var(--gray);
 }
 
@@ -976,7 +1193,9 @@ img { max-width: 100%; }
   font-weight: 500;
 }
 
-/* Toast notification */
+/* ===================================================
+   TOAST NOTIFICATION
+   =================================================== */
 .toast {
   position: fixed;
   bottom: 24px;
@@ -1005,9 +1224,12 @@ img { max-width: 100%; }
   opacity: 1;
 }
 
-/* ---- Responsive ---- */
+/* ===================================================
+   RESPONSIVE
+   =================================================== */
 @media (max-width: 768px) {
   .site-nav { display: none; }
+
   .site-nav.open {
     display: flex;
     flex-direction: column;
@@ -1019,22 +1241,23 @@ img { max-width: 100%; }
     gap: 4px;
     box-shadow: 0 8px 24px rgba(0,0,0,.4);
   }
+
   .hamburger { display: flex; }
 
   .hero { padding: 72px 20px 56px; }
+  .hero h1 { font-size: clamp(2.4rem, 10vw, 4.5rem); }
 
   .about-grid {
     grid-template-columns: 1fr;
     gap: 32px;
   }
 
-  .clubs-grid {
-    grid-template-columns: 1fr;
-  }
+  .clubs-grid { grid-template-columns: 1fr; }
 
   .stats-banner-inner {
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
+    padding: 40px 20px;
   }
 
   .form-row { flex-direction: column; }
@@ -1042,200 +1265,17 @@ img { max-width: 100%; }
   .members-table td:nth-child(4),
   .members-table th:nth-child(4) { display: none; }
 
-  .page-hero h1 { font-size: 1.5rem; }
+  .challenge-totals { flex-wrap: wrap; }
+  .ch-total-item { min-width: 50%; }
+  .challenge-table .col-tg { display: none; }
+
+  .club-section-inner { padding: 32px 16px; }
+  .club-section-header { padding: 14px 20px; }
+  .club-section-title { font-size: 1.1rem; }
 }
 
 @media (max-width: 480px) {
   .club-stats { grid-template-columns: repeat(3, 1fr); }
-
   .dash-summary { grid-template-columns: repeat(2, 1fr); }
-
   .stats-banner-inner { grid-template-columns: 1fr 1fr; }
-}
-
-/* =========================================
-   CHALLENGE LEADERBOARD
-   ========================================= */
-.challenge-block {
-  background: var(--white);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  margin-bottom: 8px;
-}
-
-.challenge-header {
-  background: var(--black);
-  padding: 20px 28px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.challenge-title {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.ch-icon { font-size: 2rem; }
-
-.ch-name {
-  font-size: 1.1rem;
-  font-weight: 900;
-  color: var(--white);
-  letter-spacing: .06em;
-  text-transform: uppercase;
-}
-
-.ch-sub {
-  font-size: .78rem;
-  color: rgba(255,255,255,.55);
-  font-weight: 600;
-  margin-top: 2px;
-}
-
-.challenge-settings {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.ch-pts-label {
-  font-size: .8rem;
-  color: rgba(255,255,255,.7);
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.challenge-totals {
-  display: flex;
-  gap: 0;
-  border-bottom: 1px solid var(--gray-light);
-}
-
-.ch-total-item {
-  flex: 1;
-  padding: 18px 20px;
-  text-align: center;
-  border-right: 1px solid var(--gray-light);
-}
-
-.ch-total-item:last-child { border-right: none; }
-
-.ch-t-val {
-  display: block;
-  font-size: 1.6rem;
-  font-weight: 900;
-  color: var(--black);
-  line-height: 1;
-}
-
-.ch-t-val.orange { color: var(--orange); }
-
-.ch-t-lbl {
-  display: block;
-  font-size: .75rem;
-  color: var(--gray);
-  font-weight: 600;
-  margin-top: 4px;
-  text-transform: uppercase;
-  letter-spacing: .05em;
-}
-
-.challenge-table-wrap { overflow-x: auto; }
-
-.challenge-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: .875rem;
-}
-
-.challenge-table thead th {
-  padding: 12px 16px;
-  background: var(--bg);
-  font-size: .72rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .07em;
-  color: var(--gray);
-  border-bottom: 2px solid var(--gray-light);
-  white-space: nowrap;
-}
-
-.challenge-table .col-rank  { width: 60px; text-align: center; }
-.challenge-table .col-name  { min-width: 160px; }
-.challenge-table .col-tg    { min-width: 130px; }
-.challenge-table .col-sess,
-.challenge-table .col-pts   { width: 90px; text-align: center; }
-.challenge-table .col-bar   { min-width: 180px; }
-
-.ch-row td {
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--gray-light);
-  vertical-align: middle;
-}
-
-.ch-row:last-child td { border-bottom: none; }
-
-.ch-row:hover td { background: #fdf5ee; }
-
-.ch-row.top-1 { background: linear-gradient(90deg, #fffbf0 0%, transparent 60%); }
-.ch-row.top-2 { background: linear-gradient(90deg, #f7f7f7 0%, transparent 60%); }
-.ch-row.top-3 { background: linear-gradient(90deg, #fff5ee 0%, transparent 60%); }
-
-.ch-rank-num {
-  font-size: 1.3rem;
-  font-weight: 900;
-  color: var(--black);
-  display: block;
-  text-align: center;
-}
-
-.ch-bar-wrap {
-  height: 8px;
-  background: var(--gray-light);
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 4px;
-}
-
-.ch-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--orange-dark), var(--orange));
-  border-radius: 4px;
-  transition: width .4s ease;
-  min-width: 2px;
-}
-
-.ch-pct {
-  font-size: .75rem;
-  color: var(--gray);
-  font-weight: 700;
-}
-
-/* Hero photo support */
-.hero {
-  position: relative;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,.55);
-  pointer-events: none;
-}
-
-.hero > *:not(.hero-overlay) { position: relative; z-index: 1; }
-
-@media (max-width: 768px) {
-  .challenge-header { flex-direction: column; align-items: flex-start; }
-  .challenge-totals { flex-wrap: wrap; }
-  .ch-total-item { min-width: 50%; }
-  .challenge-table .col-tg { display: none; }
 }
