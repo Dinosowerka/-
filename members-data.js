@@ -6,8 +6,6 @@
  *   telegram — Telegram-ник (без @, например: ivan_petrov)
  *   photo    — путь к фото (например: "images/members/ivan.jpg") или null
  *   clubs    — клубы: любые из "sport", "english", "reading"
- *
- * Когда пришлёшь список — просто заменяем эти строки реальными данными.
  */
 
 const GROUP_MEMBERS = [

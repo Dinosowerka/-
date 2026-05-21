@@ -6,7 +6,6 @@
   <title>Участники — ПОКОЛЕНИЕ</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* ── Members grid ── */
     .members-search-bar {
       max-width: 480px;
       margin: 0 auto 36px;
@@ -32,7 +31,6 @@
       font-size: 1.1rem;
       pointer-events: none;
     }
-
     .club-filter-bar {
       display: flex;
       gap: 10px;
@@ -55,13 +53,11 @@
     }
     .filter-chip:hover,
     .filter-chip.active { border-color: var(--orange); background: var(--orange); color: var(--white); }
-
     .members-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 20px;
     }
-
     .member-card {
       background: var(--white);
       border-radius: var(--radius);
@@ -86,7 +82,6 @@
       transition: opacity var(--transition);
     }
     .member-card:hover::before { opacity: 1; }
-
     .member-photo {
       width: 80px;
       height: 80px;
@@ -101,12 +96,7 @@
       overflow: hidden;
       flex-shrink: 0;
     }
-    .member-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
+    .member-photo img { width: 100%; height: 100%; object-fit: cover; }
     .member-card-name {
       font-size: .92rem;
       font-weight: 800;
@@ -121,50 +111,20 @@
       margin-bottom: 12px;
       letter-spacing: .02em;
     }
-    .member-card-tg a {
-      color: inherit;
-      transition: color var(--transition);
-    }
+    .member-card-tg a { color: inherit; transition: color var(--transition); }
     .member-card-tg a:hover { color: var(--orange-dark); }
-
-    .member-club-badges {
-      display: flex;
-      gap: 5px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .club-badge {
-      font-size: .72rem;
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-weight: 700;
-      letter-spacing: .03em;
-    }
+    .member-club-badges { display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; }
+    .club-badge { font-size: .72rem; padding: 3px 10px; border-radius: 20px; font-weight: 700; letter-spacing: .03em; }
     .club-badge.sport   { background: #fff3e8; color: #cc5500; }
     .club-badge.english { background: #e8f0ff; color: #2255cc; }
     .club-badge.reading { background: #e8fff0; color: #226633; }
-
-    .members-count-bar {
-      text-align: center;
-      margin-bottom: 28px;
-      font-size: .9rem;
-      color: var(--gray);
-      font-weight: 600;
-    }
+    .members-count-bar { text-align: center; margin-bottom: 28px; font-size: .9rem; color: var(--gray); font-weight: 600; }
     .members-count-bar strong { color: var(--orange); }
-
-    .empty-members {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--gray);
-      grid-column: 1 / -1;
-    }
+    .empty-members { text-align: center; padding: 60px 20px; color: var(--gray); grid-column: 1 / -1; }
     .empty-members .em-icon { font-size: 3rem; margin-bottom: 12px; }
   </style>
 </head>
 <body>
-
-  <!-- HEADER -->
   <header class="site-header">
     <div class="header-inner">
       <a href="index.html" class="logo">ПОКОЛЕНИЕ<span></span></a>
@@ -180,7 +140,6 @@
     </div>
   </header>
 
-  <!-- PAGE HERO -->
   <div class="page-hero">
     <div class="page-hero-inner">
       <div class="breadcrumb"><a href="index.html">Главная</a> / Участники</div>
@@ -189,32 +148,21 @@
     </div>
   </div>
 
-  <!-- MAIN -->
   <div class="section" style="padding-top:40px;">
-
-    <!-- Search -->
     <div class="members-search-bar">
       <input type="text" id="searchInput" placeholder="Поиск по имени или @telegram…" oninput="filterMembers()" />
       <span class="search-icon">🔍</span>
     </div>
-
-    <!-- Club filter -->
     <div class="club-filter-bar">
       <button class="filter-chip active" data-club="all"     onclick="setFilter('all',     this)">Все</button>
       <button class="filter-chip"        data-club="sport"   onclick="setFilter('sport',   this)">🏃 Спорт</button>
       <button class="filter-chip"        data-club="english" onclick="setFilter('english', this)">🇬🇧 Английский</button>
       <button class="filter-chip"        data-club="reading" onclick="setFilter('reading', this)">📚 Чтение</button>
     </div>
-
-    <!-- Count -->
     <p class="members-count-bar" id="countBar">Показано: <strong id="countNum">0</strong></p>
-
-    <!-- Grid -->
     <div class="members-grid" id="membersGrid"></div>
-
   </div>
 
-  <!-- FOOTER -->
   <footer class="site-footer" style="margin-top:64px;">
     <span class="footer-logo">ПОКОЛЕНИЕ</span>
     &copy; 2025 Сообщество Михаила Гребенюка. Все права защищены.
@@ -225,85 +173,49 @@
     document.getElementById('hamburger').addEventListener('click', function () {
       document.getElementById('siteNav').classList.toggle('open');
     });
-
-    const AVATAR_COLORS = [
-      '#FF6B00','#CC5500','#E05A00','#B84400',
-      '#1A1A1A','#2C2C2C','#3D3D3D','#884400',
-    ];
-
+    const AVATAR_COLORS = ['#FF6B00','#CC5500','#E05A00','#B84400','#1A1A1A','#2C2C2C','#3D3D3D','#884400'];
     function avatarColor(name) {
       let h = 0;
       for (let i = 0; i < (name||'').length; i++) h += name.charCodeAt(i);
       return AVATAR_COLORS[h % AVATAR_COLORS.length];
     }
-
-    function initials(name) {
-      return (name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-    }
-
-    function clubLabel(club) {
-      return { sport: 'Спорт', english: 'Английский', reading: 'Чтение' }[club] || club;
-    }
-
+    function initials(name) { return (name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2); }
+    function clubLabel(club) { return { sport: 'Спорт', english: 'Английский', reading: 'Чтение' }[club] || club; }
     let activeFilter = 'all';
-
     function setFilter(club, btn) {
       activeFilter = club;
       document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
       btn.classList.add('active');
       renderMembers();
     }
-
     function filterMembers() { renderMembers(); }
-
     function renderMembers() {
       const query  = (document.getElementById('searchInput').value || '').toLowerCase();
       const grid   = document.getElementById('membersGrid');
       const members = (typeof GROUP_MEMBERS !== 'undefined') ? GROUP_MEMBERS : [];
-
       let filtered = members.filter(m => {
         const matchClub   = activeFilter === 'all' || (m.clubs || []).includes(activeFilter);
-        const matchSearch = !query ||
-          m.name.toLowerCase().includes(query) ||
-          (m.telegram||'').toLowerCase().includes(query);
+        const matchSearch = !query || m.name.toLowerCase().includes(query) || (m.telegram||'').toLowerCase().includes(query);
         return matchClub && matchSearch;
       });
-
       document.getElementById('countNum').textContent = filtered.length;
-
       if (filtered.length === 0) {
-        grid.innerHTML = `
-          <div class="empty-members">
-            <div class="em-icon">🔍</div>
-            <p>Ничего не найдено</p>
-          </div>`;
+        grid.innerHTML = `<div class="empty-members"><div class="em-icon">🔍</div><p>Ничего не найдено</p></div>`;
         return;
       }
-
       grid.innerHTML = filtered.map(m => {
         const tg = m.telegram ? m.telegram.replace(/^@+/, '') : null;
-        const photoHtml = m.photo
-          ? `<img src="${m.photo}" alt="${m.name}" />`
-          : initials(m.name);
-        const badges = (m.clubs||[]).map(c =>
-          `<span class="club-badge ${c}">${clubLabel(c)}</span>`
-        ).join('');
-
+        const photoHtml = m.photo ? `<img src="${m.photo}" alt="${m.name}" />` : initials(m.name);
+        const badges = (m.clubs||[]).map(c => `<span class="club-badge ${c}">${clubLabel(c)}</span>`).join('');
         return `
           <div class="member-card">
-            <div class="member-photo" style="background:${m.photo ? 'transparent' : avatarColor(m.name)}">
-              ${photoHtml}
-            </div>
+            <div class="member-photo" style="background:${m.photo ? 'transparent' : avatarColor(m.name)}">${photoHtml}</div>
             <div class="member-card-name">${m.name}</div>
-            ${tg
-              ? `<div class="member-card-tg"><a href="https://t.me/${tg}" target="_blank">@${tg}</a></div>`
-              : '<div class="member-card-tg" style="color:var(--gray)">—</div>'
-            }
+            ${tg ? `<div class="member-card-tg"><a href="https://t.me/${tg}" target="_blank">@${tg}</a></div>` : '<div class="member-card-tg" style="color:var(--gray)">—</div>'}
             <div class="member-club-badges">${badges}</div>
           </div>`;
       }).join('');
     }
-
     renderMembers();
   </script>
 </body>

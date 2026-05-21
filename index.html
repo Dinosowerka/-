@@ -219,17 +219,15 @@
   <!-- ===== FOOTER ===== -->
   <footer class="site-footer">
     <span class="footer-logo">ПОКОЛЕНИЕ</span>
-    &copy; 2024 Сообщество Михаила Гребенюка. Все права защищены.
+    &copy; 2025 Сообщество Михаила Гребенюка. Все права защищены.
   </footer>
 
   <script src="app.js"></script>
   <script>
-    // Hamburger toggle
     document.getElementById('hamburger').addEventListener('click', function () {
       document.getElementById('siteNav').classList.toggle('open');
     });
 
-    // Populate cards from localStorage data
     (function renderIndexStats() {
       const clubs = ['sport', 'english', 'reading'];
       let totalMembers = 0, totalSessions = 0, totalScore = 0;
@@ -244,7 +242,6 @@
         document.getElementById(clubId + '-sessions').textContent = sessions;
         document.getElementById(clubId + '-score').textContent   = score;
 
-        // Mini avatars
         const container = document.getElementById(clubId + '-avatars');
         const show = members.slice(0, 3);
         container.innerHTML = show.map(m =>
