@@ -732,54 +732,54 @@ section#about {
    =================================================== */
 .club-section {
   padding: 0;
+  background: var(--white);
 }
 
 .club-section + .club-section {
-  border-top: 2px solid var(--gray-light);
-}
-
-.club-section:nth-child(even) {
-  background: var(--orange-tint);
+  border-top: 1px solid var(--gray-light);
 }
 
 .club-section-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 48px 24px;
+  padding: 56px 24px;
 }
 
-/* Orange header bar for each club section */
 .club-section-header {
-  background: var(--orange);
-  border-radius: var(--radius);
-  padding: 18px 28px;
-  margin-bottom: 32px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 36px;
+  padding-bottom: 24px;
+  border-bottom: 1.5px solid var(--gray-light);
+}
+
+/* Vertical orange accent bar */
+.csh-bar {
+  width: 5px;
+  height: 48px;
+  background: linear-gradient(180deg, var(--orange), var(--orange-light));
+  border-radius: 3px;
+  flex-shrink: 0;
 }
 
 .club-section-title {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 900;
-  color: var(--white);
-  letter-spacing: .06em;
+  color: var(--black);
+  letter-spacing: .04em;
   text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .club-section-sub {
   font-size: .82rem;
-  color: rgba(255,255,255,.80);
+  color: var(--gray);
   font-weight: 600;
+  margin-top: 4px;
 }
 
 /* ===================================================
-   CHALLENGE LEADERBOARD
+   CHALLENGE BLOCK (sport section wrapper)
    =================================================== */
 .challenge-block {
   background: var(--white);
@@ -789,7 +789,6 @@ section#about {
   margin-bottom: 24px;
 }
 
-/* Totals row inside challenge block */
 .challenge-totals {
   display: flex;
   gap: 0;
@@ -818,7 +817,7 @@ section#about {
 
 .ch-t-lbl {
   display: block;
-  font-size: .75rem;
+  font-size: .72rem;
   color: var(--gray);
   font-weight: 600;
   margin-top: 4px;
@@ -826,94 +825,154 @@ section#about {
   letter-spacing: .05em;
 }
 
-/* Challenge settings bar */
 .challenge-settings-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 14px 20px;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 20px;
   border-bottom: 1px solid var(--gray-light);
-  flex-wrap: wrap;
 }
 
 .ch-pts-label {
   font-size: .82rem;
-  color: var(--gray-dark);
+  color: var(--gray);
   font-weight: 600;
-  white-space: nowrap;
 }
 
-.challenge-table-wrap { overflow-x: auto; }
-
-.challenge-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: .875rem;
-}
-
-.challenge-table thead th {
-  padding: 12px 16px;
-  background: var(--orange-tint);
-  font-size: .72rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .07em;
-  color: var(--gray-dark);
-  border-bottom: 2px solid rgba(255,107,0,.20);
-  white-space: nowrap;
-}
-
-.challenge-table .col-rank  { width: 60px; text-align: center; }
-.challenge-table .col-name  { min-width: 160px; }
-.challenge-table .col-tg    { min-width: 130px; }
-.challenge-table .col-sess,
-.challenge-table .col-pts   { width: 90px; text-align: center; }
-.challenge-table .col-bar   { min-width: 180px; }
-
-.ch-row td {
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--gray-light);
-  vertical-align: middle;
-}
-
-.ch-row:last-child td { border-bottom: none; }
-
-.ch-row:hover td { background: rgba(255,107,0,.05); }
-
-/* Gold / Silver / Bronze row tints */
-.ch-row.top-1 { background: linear-gradient(90deg, #fffbe6 0%, transparent 70%); }
-.ch-row.top-2 { background: linear-gradient(90deg, #f5f5f5 0%, transparent 70%); }
-.ch-row.top-3 { background: linear-gradient(90deg, #fff3e8 0%, transparent 70%); }
-
-.ch-rank-num {
-  font-size: 1.3rem;
-  font-weight: 900;
+.pts-input {
+  width: 64px;
+  padding: 6px 10px;
+  border: 1.5px solid var(--gray-light);
+  border-radius: var(--radius-sm);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: .9rem;
   color: var(--black);
-  display: block;
   text-align: center;
+  outline: none;
+  transition: border-color var(--transition);
 }
 
-.ch-bar-wrap {
-  height: 8px;
-  background: var(--gray-light);
-  border-radius: 4px;
+.pts-input:focus { border-color: var(--orange); }
+
+/* ===================================================
+   LEADERBOARD CARDS (replaces plain table in sport)
+   =================================================== */
+.leaderboard-wrap { overflow: hidden; }
+
+.lb-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  border-left: 4px solid transparent;
+  border-bottom: 1px solid var(--gray-light);
+  background: var(--white);
+  transition: background .15s ease, padding-left .15s ease;
+}
+
+.lb-card:last-child { border-bottom: none; }
+
+.lb-card:hover {
+  background: rgba(255,107,0,.025);
+  padding-left: 26px;
+}
+
+.lb-card.lb-gold   { border-left-color: #F4B400; }
+.lb-card.lb-silver { border-left-color: #A8A8A8; }
+.lb-card.lb-bronze { border-left-color: #CD7F32; }
+
+.lb-rank {
+  font-size: 1.4rem;
+  width: 40px;
+  text-align: center;
+  flex-shrink: 0;
+  font-weight: 900;
+  color: var(--gray);
+  line-height: 1;
+}
+
+.lb-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--white);
+  font-size: .78rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lb-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.lb-name {
+  font-weight: 700;
+  font-size: .92rem;
+  color: var(--black);
+  margin-bottom: 1px;
+  white-space: nowrap;
   overflow: hidden;
-  margin-bottom: 4px;
+  text-overflow: ellipsis;
 }
 
-.ch-bar-fill {
+a.lb-tg {
+  font-size: .73rem;
+  color: var(--orange);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+  text-decoration: none;
+}
+
+a.lb-tg:hover { text-decoration: underline; }
+
+.lb-bar-wrap {
+  height: 5px;
+  background: var(--gray-light);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.lb-bar {
   height: 100%;
-  background: linear-gradient(90deg, var(--orange-dark), var(--orange));
-  border-radius: 4px;
-  transition: width .4s ease;
+  background: linear-gradient(90deg, var(--orange-dark), var(--orange-light));
+  border-radius: 3px;
+  transition: width .5s cubic-bezier(.4,0,.2,1);
   min-width: 2px;
 }
 
-.ch-pct {
-  font-size: .75rem;
+.lb-score {
+  text-align: right;
+  flex-shrink: 0;
+  min-width: 72px;
+}
+
+.lb-pts {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--orange);
+  line-height: 1;
+}
+
+.lb-pts-lbl {
+  font-size: .65rem;
   color: var(--gray);
-  font-weight: 700;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.lb-sess {
+  font-size: .7rem;
+  color: var(--gray-dark);
+  font-weight: 600;
+  margin-top: 2px;
 }
 
 /* ===================================================
@@ -1267,11 +1326,16 @@ section#about {
 
   .challenge-totals { flex-wrap: wrap; }
   .ch-total-item { min-width: 50%; }
-  .challenge-table .col-tg { display: none; }
 
-  .club-section-inner { padding: 32px 16px; }
-  .club-section-header { padding: 14px 20px; }
-  .club-section-title { font-size: 1.1rem; }
+  .club-section-inner { padding: 36px 16px; }
+  .csh-bar { height: 36px; }
+  .club-section-title { font-size: 1.15rem; }
+
+  .lb-card { gap: 10px; padding: 12px 14px; }
+  .lb-rank { width: 28px; font-size: 1.1rem; }
+  .lb-avatar { width: 34px; height: 34px; }
+  .lb-pts { font-size: 1.2rem; }
+  .lb-score { min-width: 56px; }
 }
 
 @media (max-width: 480px) {

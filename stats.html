@@ -73,25 +73,25 @@
   <section class="club-section" id="sport">
     <div class="club-section-inner">
 
-      <!-- Orange section header -->
       <div class="club-section-header">
-        <div class="club-section-title">🏃 СПОРТ</div>
-        <div class="club-section-sub">Спортивный челлендж · лидерборд</div>
+        <div class="csh-bar"></div>
+        <div>
+          <div class="club-section-title">🏃 Спорт</div>
+          <div class="club-section-sub">Спортивный челлендж · лидерборд</div>
+        </div>
       </div>
 
       <!-- CHALLENGE LEADERBOARD -->
       <div class="challenge-block" id="challengeBlock">
-        <!-- Points-per-session settings bar -->
-        <div class="challenge-settings-bar">
-          <span class="ch-pts-label">Баллов за тренировку:</span>
-          <input type="number" id="ptsPerSession" min="1" max="999"
-                 style="width:64px;padding:6px 8px;border:2px solid var(--gray-light);border-radius:var(--radius-sm);font-family:inherit;font-weight:700;color:var(--black);"
-                 onchange="updatePts()" />
-        </div>
         <!-- Team totals -->
         <div class="challenge-totals" id="challengeTotals"></div>
-        <!-- Leaderboard table -->
-        <div class="challenge-table-wrap" id="challengeTable"></div>
+        <!-- Points setting -->
+        <div class="challenge-settings-bar">
+          <span class="ch-pts-label">Баллов за тренировку:</span>
+          <input type="number" id="ptsPerSession" class="pts-input" min="1" max="999" onchange="updatePts()" />
+        </div>
+        <!-- Leaderboard cards -->
+        <div class="leaderboard-wrap" id="challengeLeaderboard"></div>
       </div>
 
       <!-- Management bar -->
@@ -151,8 +151,11 @@
     <div class="club-section-inner">
 
       <div class="club-section-header">
-        <div class="club-section-title">🇬🇧 АНГЛИЙСКИЙ ЯЗЫК</div>
-        <div class="club-section-sub">Разговорная практика · грамматика · чтение</div>
+        <div class="csh-bar"></div>
+        <div>
+          <div class="club-section-title">🇬🇧 Английский язык</div>
+          <div class="club-section-sub">Разговорная практика · грамматика · чтение</div>
+        </div>
       </div>
 
       <!-- Management bar -->
@@ -212,8 +215,11 @@
     <div class="club-section-inner">
 
       <div class="club-section-header">
-        <div class="club-section-title">📚 ЧТЕНИЕ КНИГ</div>
-        <div class="club-section-sub">Книжный клуб · обсуждения · рецензии</div>
+        <div class="csh-bar"></div>
+        <div>
+          <div class="club-section-title">📚 Чтение книг</div>
+          <div class="club-section-sub">Книжный клуб · обсуждения · рецензии</div>
+        </div>
       </div>
 
       <!-- Management bar -->
@@ -347,7 +353,7 @@
 
     // ---- Challenge Leaderboard (Sport) ----
     function renderChallenge() {
-      const pts  = Store.SPORT_POINTS_PER_SESSION;
+      const pts = Store.SPORT_POINTS_PER_SESSION;
       const ptsInput = document.getElementById('ptsPerSession');
       if (ptsInput && !ptsInput.dataset.init) {
         ptsInput.value = pts;
@@ -357,76 +363,57 @@
       const data    = Store.get('sport');
       const members = data.members || [];
       const totalSessions = members.reduce((s, m) => s + (m.sessions || 0), 0);
-      const totalPoints   = members.reduce((s, m) => s + (m.score || 0), 0);
+      const totalPoints   = members.reduce((s, m) => s + (m.score    || 0), 0);
 
-      // Totals banner
+      // Totals strip
       const totals = document.getElementById('challengeTotals');
       if (totals) totals.innerHTML = `
         <div class="ch-total-item"><span class="ch-t-val">${members.length}</span><span class="ch-t-lbl">Участников</span></div>
         <div class="ch-total-item"><span class="ch-t-val">${totalSessions}</span><span class="ch-t-lbl">Тренировок</span></div>
-        <div class="ch-total-item"><span class="ch-t-val orange">${totalPoints}</span><span class="ch-t-lbl">Командных баллов</span></div>
+        <div class="ch-total-item"><span class="ch-t-val orange">${totalPoints}</span><span class="ch-t-lbl">Командных очков</span></div>
       `;
 
-      // Leaderboard table
-      const tableWrap = document.getElementById('challengeTable');
-      if (!tableWrap) return;
+      // Leaderboard cards
+      const lb = document.getElementById('challengeLeaderboard');
+      if (!lb) return;
 
       if (members.length === 0) {
-        tableWrap.innerHTML = `<div class="empty-state"><div class="es-icon">🏃</div><p>Добавьте первых участников!</p></div>`;
+        lb.innerHTML = `<div class="empty-state"><div class="es-icon">🏃</div><p>Добавьте первых участников!</p></div>`;
         return;
       }
 
-      const sorted = [...members].sort((a, b) => (b.sessions || 0) - (a.sessions || 0));
-      const maxSessions = sorted[0] ? (sorted[0].sessions || 0) : 1;
+      const sorted   = [...members].sort((a, b) => (b.sessions || 0) - (a.sessions || 0));
+      const maxSess  = Math.max(1, sorted[0].sessions || 0);
+      const MEDALS   = ['🥇', '🥈', '🥉'];
+      const TIER_CLS = ['lb-gold', 'lb-silver', 'lb-bronze'];
 
-      const MEDALS = ['🥇', '🥈', '🥉'];
-
-      tableWrap.innerHTML = `
-        <table class="challenge-table">
-          <thead>
-            <tr>
-              <th class="col-rank">Место</th>
-              <th class="col-name">Участник</th>
-              <th class="col-tg">Telegram</th>
-              <th class="col-sess">Тренировок</th>
-              <th class="col-pts">Баллов</th>
-              <th class="col-bar">Вклад</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${sorted.map((m, i) => {
-              const rank    = i + 1;
-              const medal   = MEDALS[i] || '';
-              const sess    = m.sessions || 0;
-              const mPts    = m.score || 0;
-              const pct     = totalPoints > 0 ? Math.round((mPts / totalPoints) * 100) : 0;
-              const barPct  = maxSessions > 0 ? Math.round((sess / maxSessions) * 100) : 0;
-              const tg      = m.telegram ? `<a href="https://t.me/${m.telegram}" target="_blank" style="color:var(--orange);font-weight:700;">@${m.telegram}</a>` : '<span style="color:var(--gray)">—</span>';
-              const rowClass = rank <= 3 ? `top-${rank}` : '';
-              return `
-                <tr class="ch-row ${rowClass}">
-                  <td class="col-rank">
-                    <span class="ch-rank-num">${medal || rank}</span>
-                  </td>
-                  <td class="col-name">
-                    <div class="member-name-cell">
-                      <div class="member-avatar" style="background:${avatarColor(m.name)}">${initials(m.name)}</div>
-                      <span>${m.name}</span>
-                    </div>
-                  </td>
-                  <td class="col-tg">${tg}</td>
-                  <td class="col-sess"><strong>${sess}</strong></td>
-                  <td class="col-pts"><strong style="color:var(--orange);font-size:1rem;">${mPts}</strong></td>
-                  <td class="col-bar">
-                    <div class="ch-bar-wrap">
-                      <div class="ch-bar-fill" style="width:${barPct}%"></div>
-                    </div>
-                    <span class="ch-pct">${pct}%</span>
-                  </td>
-                </tr>`;
-            }).join('')}
-          </tbody>
-        </table>`;
+      lb.innerHTML = sorted.map((m, i) => {
+        const sess    = m.sessions || 0;
+        const mPts    = m.score    || 0;
+        const barPct  = Math.round((sess / maxSess) * 100);
+        const tier    = i < 3 ? TIER_CLS[i] : '';
+        const rankEl  = MEDALS[i] || `<span style="font-size:1rem;font-weight:900;color:var(--gray)">${i + 1}</span>`;
+        const tgHtml  = m.telegram
+          ? `<a href="https://t.me/${m.telegram}" target="_blank" class="lb-tg">@${m.telegram}</a>`
+          : '';
+        return `
+          <div class="lb-card ${tier}">
+            <div class="lb-rank">${rankEl}</div>
+            <div class="lb-avatar" style="background:${avatarColor(m.name)}">${initials(m.name)}</div>
+            <div class="lb-info">
+              <div class="lb-name">${m.name}</div>
+              ${tgHtml}
+              <div class="lb-bar-wrap">
+                <div class="lb-bar" style="width:${barPct}%"></div>
+              </div>
+            </div>
+            <div class="lb-score">
+              <div class="lb-pts">${mPts}</div>
+              <div class="lb-pts-lbl">очков</div>
+              <div class="lb-sess">${sess} тренировок</div>
+            </div>
+          </div>`;
+      }).join('');
     }
 
     function updatePts() {
